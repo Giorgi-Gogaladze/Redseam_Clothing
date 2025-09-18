@@ -8,6 +8,7 @@
   --orange-button: #ff4000;
   --grey-2: #E1DFE1;
   --grey: #F8F6F7;
+  --iconcolor: #0F172A;
 }
 input:-webkit-autofill{
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
