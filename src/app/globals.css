@@ -1,6 +1,4 @@
 @import "tailwindcss";
-@import url("https://use.typekit.net/rxa3kta.css");
-
 
 :root {
   --background: #ffffff;
@@ -17,5 +15,4 @@ body {
   padding: 0;
   width: 1920px;
   min-height: 1080px;
-  font-family: "poppins", sans-serif !important;
 }
