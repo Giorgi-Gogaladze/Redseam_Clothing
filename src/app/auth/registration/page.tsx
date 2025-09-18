@@ -4,16 +4,16 @@ import React, { useRef, useState } from 'react'
 import Button from '@/components/reusabel_components/Button'
 import Link from 'next/link'
 import Input from '@/components/reusabel_components/Input'
-import { AiOutlineEye } from 'react-icons/ai'
+import { handleRegistration } from '@/components/apiMethods/handleRegistration'
 
 const page = () => {
   const [userImage, setUserImage] = useState<string | null>(null);
   const [formData,setFormData] = useState({
     email: '',
-    name: '',
-    profile_photo: null as File | null,
+    username: '',
+    avatar: null as File | null,
     password: '',
-    confirmPassword: ''
+    password_confirmation: ''
   })
 
   const imageRef = useRef<HTMLInputElement | null>(null);
@@ -26,7 +26,26 @@ const page = () => {
     }
   }
 
-  console.log(formData)
+  const handleSubmit = async () => {
+    const data = new FormData();
+    data.append('email', formData.email);
+    data.append('username', formData.username); 
+    data.append('password', formData.password);
+    data.append('password_confirmation', formData.password_confirmation);
+    if(formData.avatar){
+      data.append('avatar', formData.avatar);
+    }
+    try {
+      const returnedData = await handleRegistration(data);
+      console.log('shevamotsmot', returnedData)
+    } catch (error) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      } else {
+        console.log(error);
+      }
+    }
+  }
   
   return (
     <div className='flex flex-col gap-12 absolute top-[152px] left-[173px] w-[554px]'>
@@ -81,14 +100,14 @@ const page = () => {
         )}
 
         <div className='w-[554px] h-[240px] flex flex-col gap-[24px]'>
-          <Input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})}  width={554} placeholder='Username *' type={'text'} />
+          <Input value={formData.username} onChange={(e) => setFormData({...formData, username: e.target.value})}  width={554} placeholder='Username *' type={'text'} />
           <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}  width={554} placeholder='Email *' type={'email'} />
           <Input value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})}  width={554} placeholder='Password *' type={'password'} />
-          <Input value={formData.confirmPassword} onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}  width={554} placeholder='Confirm Password *' type={'password'} />
+          <Input value={formData.password_confirmation} onChange={(e) => setFormData({...formData, password_confirmation: e.target.value})}  width={554} placeholder='Confirm Password *' type={'password'} />
         </div>
 
         <div className='w-[554px] h-[86px] flex flex-col justify-between items-center'>
-          <Button width={554} text='Register' />
+          <Button width={554} text='Register' onClick={handleSubmit} />
           <div className='w-[176px] h-[21px] font-normal leading-[14px] text-[14px] text-[var(--dark-blue-2)] flex gap-[8px] items-center'>
             <span> Already member?</span>
             <Link href={'/auth/login'}>
