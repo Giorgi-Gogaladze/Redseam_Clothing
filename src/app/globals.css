@@ -5,7 +5,11 @@
   --foreground: #171717;
   --dark-blue: #10151f;
   --dark-blue-2: #3E424A;
-  --orange-button: #ff4000
+  --orange-button: #ff4000;
+  --grey-2: #E1DFE1;
+}
+input:-webkit-autofill{
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
 }
 
 
@@ -15,4 +19,11 @@ body {
   padding: 0;
   width: 1920px;
   min-height: 1080px;
+}
+.placeholder-style::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: var(--dark-blue-2);
 }

@@ -3,8 +3,10 @@ import React from 'react'
 import Button from '@/components/reusabel_components/Button'
 import Link from 'next/link'
 import UserImage from '@/../public/images/userImage.jpg'
+import Input from '@/components/reusabel_components/Input'
 
 const page = () => {
+  
   return (
     <div className='flex flex-col gap-12 absolute top-[152px] left-[173px] w-[554px]'>
      <h1 className='font-semibold text-[42px] leading-[100%] tracking-[0] flex justify-start w-[261px] h-[63px] items-center'>
@@ -26,8 +28,11 @@ const page = () => {
           </div>
         </div>
 
-        <div className='w-[554px] h-[240px]'>
-          sometning
+        <div className='w-[554px] h-[240px] flex flex-col gap-[24px]'>
+          <Input width={554} placeholder='Username *' type={'text'} />
+          <Input width={554} placeholder='Email *' type={'email'} />
+          <Input width={554} placeholder='Password *' type={'password'} />
+          <Input width={554} placeholder='Confirm Password *' type={'password'} />
         </div>
 
         <div className='w-[554px] h-[86px] flex flex-col justify-between items-center'>
