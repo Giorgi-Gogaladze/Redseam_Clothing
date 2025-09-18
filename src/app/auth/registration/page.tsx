@@ -8,6 +8,7 @@ import { handleRegistration } from '@/components/apiMethods/handleRegistration'
 
 const page = () => {
   const [userImage, setUserImage] = useState<string | null>(null);
+  const [error, setError] = useState<{[key: string]: string[]}>({});
   const [formData,setFormData] = useState({
     email: '',
     username: '',
@@ -38,12 +39,8 @@ const page = () => {
     try {
       const returnedData = await handleRegistration(data);
       console.log('shevamotsmot', returnedData)
-    } catch (error) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      } else {
-        console.log(error);
-      }
+    } catch (error: any) {
+      setError(error && error.errors ? error.errors : {});
     }
   }
   
@@ -52,7 +49,7 @@ const page = () => {
      <h1 className='font-semibold text-[42px] leading-[100%] tracking-[0] flex justify-start w-[261px] h-[63px] items-center'>
       Registration
     </h1>
-      <div className='w-[554px] h-[518px] flex flex-col gap-[46px]'>
+      <div className='w-[554px] flex flex-col gap-[46px]'>
         { userImage ? (
         <div className='w-[272px] h-[100px] flex gap-[15px] items-center'>
           <div className='w-[100px] h-[100px] rounded-full overflow-hidden flex items-center justify-center'>
@@ -99,11 +96,39 @@ const page = () => {
         </div>
         )}
 
-        <div className='w-[554px] h-[240px] flex flex-col gap-[24px]'>
-          <Input value={formData.username} onChange={(e) => setFormData({...formData, username: e.target.value})}  width={554} placeholder='Username *' type={'text'} />
-          <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}  width={554} placeholder='Email *' type={'email'} />
-          <Input value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})}  width={554} placeholder='Password *' type={'password'} />
-          <Input value={formData.password_confirmation} onChange={(e) => setFormData({...formData, password_confirmation: e.target.value})}  width={554} placeholder='Confirm Password *' type={'password'} />
+        <div className='w-[554px] flex flex-col gap-[24px]'>
+          <div className='flex flex-col gap-1'>
+            <Input value={formData.username} onChange={(e) => setFormData({...formData, username: e.target.value})}  width={554} placeholder='Username *' type={'text'} />
+            {error.username && (
+              <div>
+                {error.username.map((err, i) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+              </div>
+            )}
+          </div>
+          <div className='flex flex-col gap-1'>
+            <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}  width={554} placeholder='Email *' type={'email'} />
+            {error.email && (
+              <div>
+                {error.email.map((err, i) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+              </div>
+            )}
+          </div>
+          <div className='flex flex-col gap-1'>
+            <Input value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})}  width={554} placeholder='Password *' type={'password'} />
+            {error.password && error.password[0] && (
+              <div>
+               <p className='font-light text-[var(--orange-button)] text-[10px]'>{error.password[0]}</p>
+              </div>
+            )}
+          </div>
+          <div className='flex flex-col gap-1'>
+            <Input value={formData.password_confirmation} onChange={(e) => setFormData({...formData, password_confirmation: e.target.value})}  width={554} placeholder='Confirm Password *' type={'password'} />
+            {error.password && error.password[1] && (
+              <div>
+                <p className='font-light text-[var(--orange-button)] text-[10px]'>{error.password[1]}</p>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className='w-[554px] h-[86px] flex flex-col justify-between items-center'>
