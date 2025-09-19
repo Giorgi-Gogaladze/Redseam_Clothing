@@ -1,5 +1,5 @@
 'use client'
-import { handleLogin } from '@/components/api_handler_functions/handleLogin'
+import { handleLogin } from '@/components/utils/handleLogin'
 import Button from '@/components/reusabel_components/Button'
 import Input from '@/components/reusabel_components/Input'
 import Link from 'next/link'
@@ -19,7 +19,7 @@ const page = () => {
       setPassword('');
       setEmail('');
       setErrors({});
-      router.replace('/');
+      router.replace('/products');
       console.log('returned data:',res);
     } catch (error: any) {
       setErrors({});

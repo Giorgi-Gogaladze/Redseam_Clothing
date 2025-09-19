@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import Button from '@/components/reusabel_components/Button'
 import Link from 'next/link'
 import Input from '@/components/reusabel_components/Input'
-import { handleRegistration } from '@/components/api_handler_functions/handleRegistration'
+import { handleRegistration } from '@/components/utils/handleRegistration'
 import { useRouter } from 'next/navigation'
 
 const page = () => {
@@ -40,7 +40,7 @@ const page = () => {
     }
     try {
       const returnedData = await handleRegistration(data);
-      router.replace('/')
+      router.replace('/products')
       setFormData({
         email: '',
         username: '',
