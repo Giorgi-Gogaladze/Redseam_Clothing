@@ -2,12 +2,16 @@
 import React, { useState } from 'react'
 import Input from '../reusabel_components/Input';
 import Button from '../reusabel_components/Button';
+import Clothing from './Clothing';
 
 
 const ProductsPage = () => {
-    const [sortBy, setSortBy] = useState<string>('');
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-    const [isFiltModalOpen, setIsFiltModalOpen] = useState<boolean>(false)
+    const [isFiltModalOpen, setIsFiltModalOpen] = useState<boolean>(false);
+    const [sortBy, setSortBy] = useState<string>('');
+    const [priceFrom, setPriceFrom] = useState<number | null>(null);
+    const [priceTo, setPriceTo] = useState<number |  null>(null);
+    const [page, setPage] = useState<number>(1);
 
     const sortOptions = [
       { value: '', label: 'Sort by' },
@@ -19,6 +23,9 @@ const ProductsPage = () => {
     const handleSorting = (val: string) => {
         setSortBy(val);
         setIsDropdownOpen(false);
+    }
+    const handleSearch = () => {
+
     }
 
   return (
@@ -45,11 +52,11 @@ const ProductsPage = () => {
                                 <div className='h-[24px] font-semibold text-[16px] text-[var(--dark-blue)] leading-[16px] tracking-[0px]'>Select price</div>
                                 <div className='w-full h-[93px] flex flex-col gap-[10px] justify-between'>
                                     <div className='h-[42px] flex gap-[10px]'>
-                                        <Input width={175}  placeholder='From *' type='number' />
-                                        <Input width={175} placeholder='To *' type='number' />
+                                        <Input onChange={(e) => setPriceFrom(Number(e.target.value))} width={175}  placeholder='From *' type='number' />
+                                        <Input onChange={(e) => setPriceTo(Number(e.target.value))} width={175} placeholder='To *' type='number' />
                                     </div>
                                     <div className='w-full flex justify-end'>
-                                        <Button width={124} text='Apply' />
+                                        <Button width={124} text='Apply' onClick={handleSearch} />
                                     </div>
                                 </div>
                             </div>
@@ -85,8 +92,9 @@ const ProductsPage = () => {
 
                 </div>
             </header>
-
-            <main></main>
+            <main>
+                <Clothing />
+            </main>
         </div>
     </section>
   )
