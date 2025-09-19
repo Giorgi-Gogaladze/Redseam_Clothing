@@ -10,12 +10,17 @@ export async function POST(req: NextRequest){
                 'Content-Type': 'application/json',
         }
     });
-    if(!resp.ok){
-        return NextResponse.json({message: 'invalid credentials for login'}, {status: resp.status})
+    const respData = await resp.json();
+    if(resp.ok && respData.token){
+        const response = NextResponse.json(respData);
+        response.cookies.set('token', respData.token, {
+            httpOnly: true,
+            path: '/',
+    });
+        return response;
     }
-
-        
+    return NextResponse.json(respData, {status: resp.status})
     } catch (error) {
-        
+        return NextResponse.json({message: 'login error(server)'}, {status: 500})
     }
 }
