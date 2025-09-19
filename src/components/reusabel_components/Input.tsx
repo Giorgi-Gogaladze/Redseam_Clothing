@@ -8,7 +8,7 @@ interface InputProps {
   placeholder?: string;
   type?: 'text' | 'password' | 'email' | 'number';
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  value?: string;
   icon?: IconType;
 }
 

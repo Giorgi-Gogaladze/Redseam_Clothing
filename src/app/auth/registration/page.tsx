@@ -5,10 +5,12 @@ import Button from '@/components/reusabel_components/Button'
 import Link from 'next/link'
 import Input from '@/components/reusabel_components/Input'
 import { handleRegistration } from '@/components/apiMethods/handleRegistration'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
   const [userImage, setUserImage] = useState<string | null>(null);
   const [error, setError] = useState<{[key: string]: string[]}>({});
+  const router = useRouter();
   const [formData,setFormData] = useState({
     email: '',
     username: '',
@@ -38,6 +40,16 @@ const page = () => {
     }
     try {
       const returnedData = await handleRegistration(data);
+      router.replace('/')
+      setFormData({
+        email: '',
+        username: '',
+        avatar: null,
+        password: '',
+        password_confirmation: ''
+      })
+      setUserImage(null)
+      setError({})
       console.log('shevamotsmot', returnedData)
     } catch (error: any) {
       setError(error && error.errors ? error.errors : {});
@@ -45,7 +57,7 @@ const page = () => {
   }
   
   return (
-    <div className='flex flex-col gap-12 absolute top-[152px] left-[173px] w-[554px]'>
+    <section className='flex flex-col gap-12 absolute top-[152px] left-[173px] w-[554px]'>
      <h1 className='font-semibold text-[42px] leading-[100%] tracking-[0] flex justify-start w-[261px] h-[63px] items-center'>
       Registration
     </h1>
@@ -96,7 +108,7 @@ const page = () => {
         </div>
         )}
 
-        <div className='w-[554px] flex flex-col gap-[24px]'>
+        <main className='w-[554px] flex flex-col gap-[24px]'>
           <div className='flex flex-col gap-1'>
             <Input value={formData.username} onChange={(e) => setFormData({...formData, username: e.target.value})}  width={554} placeholder='Username *' type={'text'} />
             {error.username && (
@@ -123,13 +135,13 @@ const page = () => {
           </div>
           <div className='flex flex-col gap-1'>
             <Input value={formData.password_confirmation} onChange={(e) => setFormData({...formData, password_confirmation: e.target.value})}  width={554} placeholder='Confirm Password *' type={'password'} />
-            {error.password && error.password[1] && (
+            {error.password && error.password[0] && error.password[0] === 'The password field confirmation does not match.' && (
               <div>
-                <p className='font-light text-[var(--orange-button)] text-[10px]'>{error.password[1]}</p>
+                <p className='font-light text-[var(--orange-button)] text-[10px]'>{error.password[0]}</p>
               </div>
             )}
           </div>
-        </div>
+        </main>
 
         <div className='w-[554px] h-[86px] flex flex-col justify-between items-center'>
           <Button width={554} text='Register' onClick={handleSubmit} />
@@ -143,7 +155,7 @@ const page = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 
