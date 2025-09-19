@@ -29,3 +29,7 @@ body {
   letter-spacing: 0%;
   color: var(--dark-blue-2);
 }
+input::-webkit-inner-spin-button,
+::-webkit-outer-spin-button{
+  -webkit-appearance: none;
+}

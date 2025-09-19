@@ -1,8 +1,11 @@
+import ProductsPage from '@/components/pages/ProductsPage'
 import React from 'react'
 
 const page = () => {
   return (
-    <div>main page</div>
+    <>
+      <ProductsPage />
+    </>
   )
 }
 

@@ -4,7 +4,7 @@ import { IconType } from 'react-icons';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 interface InputProps {
-  width: number;
+  width?: number;
   placeholder?: string;
   type?: 'text' | 'password' | 'email' | 'number';
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -19,6 +19,7 @@ const Input:React.FC<InputProps> = ({width, placeholder, type, value, onChange})
   return (
     <div className='relative'>
         <input
+        style={{width: `${width}px`}}
         id={placeholder}
         type={passwordField ? (showPassword ? 'text' : 'password') : type}
         placeholder={placeholder} 

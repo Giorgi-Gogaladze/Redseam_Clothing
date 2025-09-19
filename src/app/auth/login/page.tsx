@@ -20,6 +20,7 @@ const page = () => {
       setEmail('');
       setErrors({});
       router.replace('/');
+      console.log('returned data:',res);
     } catch (error: any) {
       setErrors({});
       if (error?.errors) {
