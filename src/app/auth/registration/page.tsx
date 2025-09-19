@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import Button from '@/components/reusabel_components/Button'
 import Link from 'next/link'
 import Input from '@/components/reusabel_components/Input'
-import { handleRegistration } from '@/components/apiMethods/handleRegistration'
+import { handleRegistration } from '@/components/api_handler_functions/handleRegistration'
 import { useRouter } from 'next/navigation'
 
 const page = () => {

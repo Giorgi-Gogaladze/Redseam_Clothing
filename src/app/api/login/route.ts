@@ -1,8 +1,9 @@
 import { NextResponse, NextRequest } from "next/server";
 
 export async function POST(req: NextRequest){
-    const data = await req.json();
     try {
+        const data = await req.json();
+
         const resp = await fetch('https://api.redseam.redberryinternship.ge/api/login', {
             method: 'POST',
             body: JSON.stringify(data),
@@ -10,8 +11,13 @@ export async function POST(req: NextRequest){
                 'Content-Type': 'application/json',
         }
     });
+
     const respData = await resp.json();
-    if(resp.ok && respData.token){
+    if(!resp.ok){
+        return NextResponse.json(respData, {status: resp.status})
+    }
+
+    if(respData.token){
         const response = NextResponse.json(respData);
         response.cookies.set('token', respData.token, {
             httpOnly: true,
@@ -20,7 +26,8 @@ export async function POST(req: NextRequest){
         return response;
     }
     return NextResponse.json(respData, {status: resp.status})
+
     } catch (error) {
-        return NextResponse.json({message: 'login error(server)'}, {status: 500})
+        return NextResponse.json({message: 'network error occurred or the API is unreachable'}, {status: 500})
     }
 }
