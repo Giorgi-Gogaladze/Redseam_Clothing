@@ -1,5 +1,5 @@
-type TsortBy = 'created_at' | 'price' | '-price';
-type TFilter = {priceFrom: number, priceTo: number} 
+export type TsortBy = 'created_at' | 'price' | '-price';
+export type TFilter = {priceFrom: number | undefined, priceTo: number | undefined}
 
 export async function GetProducts(sort: TsortBy, page:number = 1, filters: TFilter){
 const params = new URLSearchParams();
@@ -18,5 +18,7 @@ if(filters.priceTo) params.append('filter[price_to]', filters.priceTo.toString()
     if(!resp.ok){
         throw new Error('failed to fetch products')
     }
-    return resp.json()
+    const result = await resp.json();
+    console.log('data:', result);
+    return result
 }

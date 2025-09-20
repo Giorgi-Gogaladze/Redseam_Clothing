@@ -3,15 +3,24 @@ import React, { useState } from 'react'
 import Input from '../reusabel_components/Input';
 import Button from '../reusabel_components/Button';
 import Clothing from './Clothing';
-
+import { useQuery } from '@tanstack/react-query'
+import { GetProducts, TFilter, TsortBy } from '../utils/getProducts';
 
 const ProductsPage = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
     const [isFiltModalOpen, setIsFiltModalOpen] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>('');
-    const [priceFrom, setPriceFrom] = useState<number | null>(null);
-    const [priceTo, setPriceTo] = useState<number |  null>(null);
+    const [priceFrom, setPriceFrom] = useState<number>();
+    const [priceTo, setPriceTo] = useState<number>();
     const [page, setPage] = useState<number>(1);
+
+    const filters: TFilter = {priceFrom, priceTo};
+
+    const {data, isLoading } = useQuery({
+        queryKey: ['products', sortBy, filters, page],
+        queryFn: () => GetProducts(sortBy as TsortBy, page, filters ),
+    })
+    if(isLoading) return <div>loading...</div>
 
     const sortOptions = [
       { value: '', label: 'Sort by' },
@@ -93,7 +102,7 @@ const ProductsPage = () => {
                 </div>
             </header>
             <main>
-                <Clothing />
+                <Clothing data={data?.data || []} />
             </main>
         </div>
     </section>
