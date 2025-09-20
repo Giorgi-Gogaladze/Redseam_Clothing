@@ -3,7 +3,7 @@ export interface IClothing {
   id: number;
   name: string;
   description: string;
-  release_date: string; // ISO date string
+  release_date: string;
   cover_image: string;
   images: string[];
   price: number;

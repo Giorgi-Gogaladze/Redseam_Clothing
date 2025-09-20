@@ -10,15 +10,15 @@ const ProductsPage = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
     const [isFiltModalOpen, setIsFiltModalOpen] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>('');
-    const [priceFrom, setPriceFrom] = useState<number>();
-    const [priceTo, setPriceTo] = useState<number>();
+    const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined);
+    const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
     const [page, setPage] = useState<number>(1);
+    const [priceFilt, setPriceFilt] = useState<TFilter>({priceFrom: undefined, priceTo: undefined})
 
-    const filters: TFilter = {priceFrom, priceTo};
 
     const {data, isLoading } = useQuery({
-        queryKey: ['products', sortBy, filters, page],
-        queryFn: () => GetProducts(sortBy as TsortBy, page, filters ),
+        queryKey: ['products', sortBy, priceFilt, page],
+        queryFn: () => GetProducts(sortBy as TsortBy, page, priceFilt ),
     })
     if(isLoading) return <div>loading...</div>
 
@@ -34,7 +34,8 @@ const ProductsPage = () => {
         setIsDropdownOpen(false);
     }
     const handleSearch = () => {
-
+        setPriceFilt({priceFrom: priceFrom, priceTo: priceTo});
+        setIsFiltModalOpen(false);
     }
 
   return (
