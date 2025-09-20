@@ -2,6 +2,8 @@
 import React from 'react'
 import { IClothing } from '../utils/interfaces/Iclothing';
 import Image from 'next/image';
+import Link from 'next/link';
+import PlaceholderImg from '../../../public/images/imagePlaceholder.png'
 
 interface ClothingProps {
   data: IClothing[];
@@ -12,13 +14,14 @@ const Clothing: React.FC<ClothingProps> = ({ data }) => {
   return (
     <div className='w-full h-auto grid grid-cols-4 gap-[24px] gap-y-[50px]'>
         {data.map((clothing, i) => (
+          <Link key={clothing.id} href={`/products/${clothing.id}`}>
             <div
             className='flex w-full h-[614px] cursor-pointer' 
             key={i}>
               <div className='flex flex-col gap-[12px]'>
                 <div className='w-full h-[549px] overflow-hidden'>
                   <Image
-                  src={clothing.cover_image}
+                  src={clothing.cover_image ?? PlaceholderImg}
                   alt='image'
                   width={1000}
                   height={1000}
@@ -35,6 +38,7 @@ const Clothing: React.FC<ClothingProps> = ({ data }) => {
                 </div>
               </div>
             </div>
+          </Link>
         ))}
     </div>
   )
