@@ -15,8 +15,9 @@ export async function POST(req: NextRequest) {
         if(response.ok && data.token){ 
             const res = NextResponse.json(data);
             res.cookies.set('token', data.token, {
-                httpOnly: true,
+                httpOnly: false,
                 path: '/',
+                maxAge: 7 * 24 * 60 * 60
             });
             return res;
         }

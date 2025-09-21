@@ -1,19 +1,61 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IClothing } from '../utils/interfaces/Iclothing'
 import Image from 'next/image'
 import PlaceholderImg from '../../../public/images/imagePlaceholder.png'
 import brandPlaceholder from '../../../public/images/brandPlaceholder.jpg'
 import Button from '../reusabel_components/Button'
+import { addProductToCart } from '../utils/addProductToCart'
+import Cookies from 'js-cookie';
 
 interface DetailPageProp {
-    product: IClothing
+    product: IClothing;
+    id: string;
 }
-const ProductDetail:React.FC<DetailPageProp> = ({product}) => {
+const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
     const [selectedSize, setSelectedSize] = useState<string>();
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedImgCol, setSelectedImgCol] = useState<number >(0);
     const [isQuantModalOpen, setIsQuantModalOpen] = useState<boolean>(false);
+    const [selectedData, setSelectedData] = useState({
+        quantity: quantity,
+        color: product.available_colors?.[selectedImgCol],
+        size: selectedSize
+    })
+
+    useEffect(() => {
+        setSelectedData({
+            quantity: quantity,
+            color: String(product.available_colors?.[selectedImgCol]) ?? "",
+            size: selectedSize ?? "",
+        })
+    }, [selectedImgCol, selectedSize, quantity])
+
+    const handleCartProductChoose = async () => {
+        const data = {
+            quantity: quantity,
+            color: product.available_colors?.[selectedImgCol] ?? "",
+            size: selectedSize ?? "",
+        }
+        if(!data.color || !data.size){
+            alert('please select color and size')
+            return
+        }
+        
+        const token = Cookies.get('token')
+        if(!token){
+            alert('user is not authenticated')
+            return
+        }
+        try {
+            const cartData = await addProductToCart(id, data, token);
+            alert('product successfully added to cart')
+            console.log(cartData);
+        } catch (error) {
+        console.error(error);
+        alert("Failed to add product to cart");
+        } 
+    }
 
     const convertCol = (colorName: string) => {
         return colorName.replace(/\s+/g, "-")
@@ -135,7 +177,9 @@ const ProductDetail:React.FC<DetailPageProp> = ({product}) => {
                     </div>
 
                     <div>
-                        <Button width={704} text='Add to cart' icon={true} textSz={18} font='medium'/>
+                        <Button 
+                        onClick={handleCartProductChoose}
+                        width={704} text='Add to cart' icon={true} textSz={18} font='medium'/>
                     </div>
 
                     <div className='w-full h-[1px] bg-[var(--grey-2)]'/>

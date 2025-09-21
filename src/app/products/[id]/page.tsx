@@ -34,7 +34,7 @@ const page = async ({params}: IPageProp) => {
 
   return (
     <>
-    <ProductDetail product={product} />
+    <ProductDetail product={product} id={params.id} />
     </>
   )
 }
