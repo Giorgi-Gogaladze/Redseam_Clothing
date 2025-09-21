@@ -10,7 +10,7 @@ interface DetailPageProp {
     product: IClothing
 }
 const ProductDetail:React.FC<DetailPageProp> = ({product}) => {
-    const [selectedSize, setSelectedSize] = useState<string | undefined>(undefined);
+    const [selectedSize, setSelectedSize] = useState<string>();
     const [quantity, setQuantity] = useState<number>(1);
     const [selectedImgCol, setSelectedImgCol] = useState<number >(0);
     const [isQuantModalOpen, setIsQuantModalOpen] = useState<boolean>(false);
@@ -70,7 +70,7 @@ const ProductDetail:React.FC<DetailPageProp> = ({product}) => {
                     <div className='w-[382px] h-[348px] flex flex-col gap-[48px]'>
                         <div className=' h-[88px] flex flex-col gap-[16px]'>
                             <div className='flex items-center h-[24px]'>
-                                <h1 className='text-[16px] font-normal leading-[16px] tracking-[0px] text-[var(--dark-blue)]'>Color: {product.available_colors?.[0] ?? 'no color'}</h1>
+                                <h1 className='text-[16px] font-normal leading-[16px] tracking-[0px] text-[var(--dark-blue)]'>Color: {product.available_colors?.[selectedImgCol] ?? 'no color'}</h1>
                             </div>
                             <div className='h-[48px] w-full flex gap-[13px] justify-start'>
                                 {product.available_colors?.map((col,i) => (
@@ -87,7 +87,7 @@ const ProductDetail:React.FC<DetailPageProp> = ({product}) => {
                         </div>
                         <div className='w-full h-[82px] flex flex-col gap-[16px]'>
                             <div className='flex items-center h-[24px]'>
-                                <h1 className='text-[16px] font-normal leading-[16px] tracking-[0px] text-[var(--dark-blue)]'>Size: {product.available_sizes?.[0] ?? 'no size'}</h1>
+                                <h1 className='text-[16px] font-normal leading-[16px] tracking-[0px] text-[var(--dark-blue)]'>Size: {selectedSize ?? '+'}</h1>
                             </div>
                             <div className='w-full h-[42px] flex gap-[8px] justify-start'>
                                 {product.available_sizes?.map((size, i) => (
