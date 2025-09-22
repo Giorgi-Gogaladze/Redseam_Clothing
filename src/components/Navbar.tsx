@@ -1,7 +1,12 @@
+'use client'
+import { useAuth } from '@/context/AuthContext'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import userPlaceholder from  '../../public/images/userPlaceholder.png'
 
 const Navbar = () => {
+    const { user, setIsCartOpen, isCartOpen } = useAuth();
   return (
     <nav className='w-full h-[80px] py-[10px] px-[100px] flex items-center justify-between'>
         <Link href={'/products'}>
@@ -13,15 +18,40 @@ const Navbar = () => {
             </div>
         </Link>
 
-        <div className='w-16 h-[20px] flex gap-2 items-center cursor-pointer'>
+        {user ? 
+        (<div className='w-[84px] h-[40px] flex gap-[20px] justify-between items-center'>
+            <div 
+            className='cursor-pointer'
+            onClick={() => setIsCartOpen(!isCartOpen)}>
+                <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1.25 0.25C0.835786 0.25 0.5 0.585786 0.5 1C0.5 1.41421 0.835786 1.75 1.25 1.75H2.63568C2.80558 1.75 2.95425 1.86422 2.99803 2.02838L5.55576 11.6199C3.94178 12.0385 2.75 13.5051 2.75 15.25C2.75 15.6642 3.08579 16 3.5 16H19.25C19.6642 16 20 15.6642 20 15.25C20 14.8358 19.6642 14.5 19.25 14.5H4.37803C4.68691 13.6261 5.52034 13 6.5 13H17.7183C18.0051 13 18.2668 12.8364 18.3925 12.5785C19.5277 10.249 20.5183 7.83603 21.3527 5.35126C21.4191 5.15357 21.4002 4.93716 21.3005 4.75399C21.2008 4.57082 21.0294 4.43743 20.8273 4.38583C16.0055 3.15442 10.9536 2.5 5.75 2.5C5.39217 2.5 5.03505 2.5031 4.67868 2.50926L4.44738 1.64188C4.2285 0.821088 3.48515 0.25 2.63568 0.25H1.25Z" fill="#10151F"/>
+                    <path d="M2.75 18.25C2.75 17.4216 3.42157 16.75 4.25 16.75C5.07843 16.75 5.75 17.4216 5.75 18.25C5.75 19.0784 5.07843 19.75 4.25 19.75C3.42157 19.75 2.75 19.0784 2.75 18.25Z" fill="#10151F"/>
+                    <path d="M15.5 18.25C15.5 17.4216 16.1716 16.75 17 16.75C17.8284 16.75 18.5 17.4216 18.5 18.25C18.5 19.0784 17.8284 19.75 17 19.75C16.1716 19.75 15.5 19.0784 15.5 18.25Z" fill="#10151F"/>
+                </svg>
+            </div>
+            {/* <div className='size-[40px] rounded-full overflow-hidden'>
+                <Image
+                src={user.avatar || userPlaceholder}
+                alt='suer image'
+                width={200}
+                height={200}
+                className='object-center' />
+            </div> */}
+            <div>{user.username}</div>
+        </div>
+        ) :(
+            <div className='w-16 h-[20px] flex gap-2 items-center cursor-pointer'>
             <div className='w-[20px] h-[20px] flex items-center justify-center'>
                 <svg width="14" height="16" viewBox="0 0 14 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M7.00098 6C8.65783 6 10.001 4.65685 10.001 3C10.001 1.34315 8.65783 0 7.00098 0C5.34412 0 4.00098 1.34315 4.00098 3C4.00098 4.65685 5.34412 6 7.00098 6Z" fill="#10151F"/>
                     <path d="M0.466147 12.4935C0.271263 13.0016 0.445325 13.571 0.875175 13.9046C2.56753 15.218 4.69299 16 7.00109 16C9.31154 16 11.439 15.2164 13.1322 13.9006C13.5618 13.5667 13.7355 12.9971 13.5403 12.4892C12.531 9.86354 9.98517 8 7.00404 8C4.02129 8 1.47427 9.86557 0.466147 12.4935Z" fill="#10151F"/>
                 </svg>
             </div>
-            <h1 className='font-medium text-[12px] leading-[100%] tracking-[0] text-[var(--dark-blue)]'>Log in</h1>
+            <Link href={'/auth/login'}>
+                <h1 className='font-medium text-[12px] leading-[100%] tracking-[0] text-[var(--dark-blue)]'>Log in</h1>
+            </Link>
         </div>
+        )}
     </nav>
   )
 }

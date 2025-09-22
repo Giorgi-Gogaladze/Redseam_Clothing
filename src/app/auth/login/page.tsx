@@ -4,13 +4,15 @@ import Button from '@/components/reusabel_components/Button'
 import Input from '@/components/reusabel_components/Input'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { useAuth } from '@/context/AuthContext'
 
 const page = () => {
   const [password, setPassword] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [errors, setErrors] = useState<{[key:string]: string}>({})
   const router = useRouter();
+  const { user, setUser} = useAuth();
   
   const handleLoginSub = async () => {
     const loginData = {password,email};
@@ -19,6 +21,7 @@ const page = () => {
       setPassword('');
       setEmail('');
       setErrors({});
+      setUser(res)
       router.replace('/products');
       console.log('returned data:',res);
     } catch (error: any) {

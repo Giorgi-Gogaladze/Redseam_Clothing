@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Input from '@/components/reusabel_components/Input'
 import { handleRegistration } from '@/components/utils/handleRegistration'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/context/AuthContext'
 
 const page = () => {
   const [userImage, setUserImage] = useState<string | null>(null);
