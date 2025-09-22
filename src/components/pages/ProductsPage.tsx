@@ -5,6 +5,8 @@ import Button from '../reusabel_components/Button';
 import Clothing from './Clothing';
 import { useQuery } from '@tanstack/react-query'
 import { GetProducts, TFilter, TsortBy } from '../utils/getProducts';
+import { useAuth } from '@/context/AuthContext';
+import CartModal from '../CartModal';
 
 const ProductsPage = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -13,7 +15,8 @@ const ProductsPage = () => {
     const [priceFrom, setPriceFrom] = useState<number | undefined>(undefined);
     const [priceTo, setPriceTo] = useState<number | undefined>(undefined);
     const [page, setPage] = useState<number>(1);
-    const [priceFilt, setPriceFilt] = useState<TFilter>({priceFrom: undefined, priceTo: undefined})
+    const [priceFilt, setPriceFilt] = useState<TFilter>({priceFrom: undefined, priceTo: undefined});
+    const {isCartOpen} = useAuth();
 
 
     const {data, isLoading } = useQuery({
@@ -106,6 +109,7 @@ const ProductsPage = () => {
                 <Clothing data={data?.data || []} />
             </main>
         </div>
+        {isCartOpen && <CartModal />}
     </section>
   )
 }

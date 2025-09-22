@@ -9,7 +9,6 @@
   --grey-2: #E1DFE1;
   --grey: #F8F6F7;
   --iconcolor: #0F172A;
-
   --White: #FFFFFF;
   --Red: #FF0000;
   --Blue: #0000FF;
@@ -36,6 +35,9 @@
 }
 input:-webkit-autofill{
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
+}
+.dark-blue-blur {
+ background-color: rgba(16, 21, 31, 0.3);
 }
 
 

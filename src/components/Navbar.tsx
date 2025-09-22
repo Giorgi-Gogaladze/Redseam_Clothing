@@ -29,15 +29,14 @@ const Navbar = () => {
                     <path d="M15.5 18.25C15.5 17.4216 16.1716 16.75 17 16.75C17.8284 16.75 18.5 17.4216 18.5 18.25C18.5 19.0784 17.8284 19.75 17 19.75C16.1716 19.75 15.5 19.0784 15.5 18.25Z" fill="#10151F"/>
                 </svg>
             </div>
-            {/* <div className='size-[40px] rounded-full overflow-hidden'>
+            <div className='size-[40px] rounded-full overflow-hidden'>
                 <Image
                 src={user.avatar || userPlaceholder}
                 alt='suer image'
                 width={200}
                 height={200}
                 className='object-center' />
-            </div> */}
-            <div>{user.username}</div>
+            </div>
         </div>
         ) :(
             <div className='w-16 h-[20px] flex gap-2 items-center cursor-pointer'>
