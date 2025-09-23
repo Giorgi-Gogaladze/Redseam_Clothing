@@ -7,14 +7,18 @@ import Button from './reusabel_components/Button';
 import Cookies from 'js-cookie';
 import { getCart } from './utils/getCart';
 import { IClothing } from './utils/interfaces/Iclothing';
-import Link from 'next/link';
 import CardProducts from './reusabel_components/CardProducts';
 import CartCheckoutInfo from './reusabel_components/CartCheckoutInfo';
+import { removeProduct } from './utils/removeProducts';
+import { redirect, usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const CartModal = () => {
     const [savedProducts, setSavedProducts] = useState<null | IClothing[]>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { setIsCartOpen} = useAuth();
+    const pathname = usePathname();
+    const route = useRouter();
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -32,6 +36,23 @@ const CartModal = () => {
     }
     fetchCart();
     }, []);
+
+    const handleProdRemove = async (id: string) => {
+        const token = Cookies.get('token');
+        if(!token){
+            throw new Error('no token available')
+        }
+        await removeProduct(id, token);
+        setSavedProducts(prev =>prev ? prev?.filter(p => String(p.id) !== id) : null);
+    }
+    const handleRedirect = ()=> {
+        setIsCartOpen(false);
+        if(pathname === '/products'){
+            return
+        }else{
+        route.push('/products');
+        }
+    }
     const productCount = savedProducts?.length;
 
   return (
@@ -42,7 +63,7 @@ const CartModal = () => {
             <aside 
             onClick={(e) => e.stopPropagation()}
             className='absolute top-0 right-0 h-[1080px] w-[540px] bg-[var(--grey)] border border-[var(--grey-2)] '>
-                {savedProducts ? 
+                {savedProducts && savedProducts.length > 0 ? 
                 (
                 <section className='inset-0 bg-transparent px-[40px] py-[41px]'>
                     <div className='flex justify-between h-[32px]'>
@@ -57,7 +78,7 @@ const CartModal = () => {
                     </div>
 
                     <main className='w-[460px] absolute top-[134px] left-[40px]'>
-                        <CardProducts savedProducts={savedProducts} />
+                        <CardProducts setSavedProducts={setSavedProducts} savedProducts={savedProducts} onRemove={handleProdRemove} />
                     </main>
 
                     <div className='absolute bottom-[41px] left-[40px] w-[460px] h-[271px]'>
@@ -96,7 +117,7 @@ const CartModal = () => {
                         <p className='text-[14px] font-normal leading-[14px] text-[var(--dark-blue-2)]'>You’ve got nothing in your cart just yet...</p>
                     </div>
                     <div className='absolute top-[506px] left-[163px] w-[214px] h-[41px]'>
-                        <Button text='Start shopping' width={214} font='normal' textSz={14} onClick={() => setIsCartOpen(false)} />
+                        <Button text='Start shopping' width={214} font='normal' textSz={14} onClick={handleRedirect} />
                     </div>
                 </>)}     
                 </div>

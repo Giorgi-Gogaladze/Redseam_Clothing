@@ -7,6 +7,8 @@ import brandPlaceholder from '../../../public/images/brandPlaceholder.jpg'
 import Button from '../reusabel_components/Button'
 import { addProductToCart } from '../utils/addProductToCart'
 import Cookies from 'js-cookie';
+import { useAuth } from '@/context/AuthContext'
+import CartModal from '../CartModal'
 
 interface DetailPageProp {
     product: IClothing;
@@ -21,7 +23,8 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
         quantity: quantity,
         color: product.available_colors?.[selectedImgCol],
         size: selectedSize
-    })
+    });
+    const {isCartOpen } = useAuth()
 
     useEffect(() => {
         setSelectedData({
@@ -67,6 +70,7 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
     const QunatArr = [1,2,3,4,5,6,7,8,9,10]
 
   return (
+    <>
     <section className='mx-[100px] mt-[30px] h-auto flex flex-col gap-[50px] mb-[110px]'>
         <div className='text-[14px] font-light leading-[14px] tracking-[0px] text-black'>Listing / Product</div>
         <main className='h-[937px] w-full flex gap-[168px]'>
@@ -208,6 +212,8 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
             </div>
         </main>
     </section>
+    {isCartOpen && <CartModal />}
+   </> 
   )
 }
 
