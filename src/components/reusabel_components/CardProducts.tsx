@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import clothingPlaceholder from '../../../public/images/imagePlaceholder.png'
 import { IClothing } from '../utils/interfaces/Iclothing'
 import { FiMinus, FiPlus } from 'react-icons/fi';

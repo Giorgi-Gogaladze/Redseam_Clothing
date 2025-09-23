@@ -82,7 +82,7 @@ const CartModal = () => {
                     </main>
 
                     <div className='absolute bottom-[41px] left-[40px] w-[460px] h-[271px]'>
-                        <CartCheckoutInfo />
+                        <CartCheckoutInfo savedProducts={savedProducts} />
                     </div>
                 </section>
                 ) : (
