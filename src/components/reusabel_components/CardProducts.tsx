@@ -1,0 +1,54 @@
+import Image from 'next/image'
+import React from 'react'
+import clothingPlaceholder from '../../../public/images/imagePlaceholder.png'
+import { IClothing } from '../utils/interfaces/Iclothing'
+import { FiMinus, FiPlus } from 'react-icons/fi';
+interface ICardProductsProps {
+    savedProducts: IClothing[];
+}
+
+const CardProducts:React.FC<ICardProductsProps> = ({savedProducts}) => {
+  return (
+    <div className='inset-0 flex flex-col gap-[36px]'>
+                        {savedProducts.map((prod) => (
+                            <div 
+                            key={prod.id}
+                            className=' h-[134px] flex gap-[16px] items-center'>
+                                <div className='w-[100px] h-full border border-[var(--grey-2)] rounded-[10px] overflow-hidden'>
+                                    <Image
+                                    src={prod.cover_image || clothingPlaceholder}
+                                    alt='image'
+                                    width={1200}
+                                    height={1200}
+                                    className='object-cover w-full h-full'
+                                    />
+                                </div>
+                                <div className='h-[117px] w-[343px] flex flex-col justify-between'>
+                                    <div className='flex justify-between'>
+                                        <div className='w-[285px] h-[78px] flex flex-col gap-2 justify-between'>
+                                            <div className='h-[21px] flex items-center'>
+                                                <h1 className='font-medium text-[14px] leading-[14px] tracking-[0px] text-[var(--dark-blue)]'>{prod.name}</h1>
+                                            </div>
+                                            <h1 className='font-normal text-[12px] leading-[12px] tracking-[0px] text-[var(--dark-blue-2)]'>{prod.color}</h1>
+                                            <p className='font-normal text-[12px] leading-[12px] tracking-[0px] text-[var(--dark-blue-2)]'>{prod.size}</p>
+                                        </div>
+                                        <div className=' h-[26px] font-medium text-[18px] leading-[18px] tracking-[0px] text-[var(--dark-blue)]'>$ {prod.price}</div>
+                                    </div>
+                                    <div className='w-full flex justify-between items-center h-[26px]'>
+                                        <div className='w-[70px] h-[26px] border border-[var(--grey-2)] rounded-full flex justify-around items-center'>
+                                            <div className={`font-normal text-[12px] leading-[15px] tracking-[0px] text-[var(--dark-blue-2)] cursor-pointer`}><FiMinus /></div>
+                                            <div className={`font-normal text-[12px] leading-[15px] tracking-[0px] text-[var(--dark-blue-2)] `}>{prod.quantity}</div>
+                                            <div className='font-normal text-[12px] leading-[15px] tracking-[0px] text-[var(--dark-blue-2)] cursor-pointer'><FiPlus /></div>
+                                        </div>
+                                        <div>
+                                            <h1 className='font-normal text-[12px] leading-[12px] tracking-[0px] text-[var(--dark-blue-2)] cursor-pointer'>Remove</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                        </div>
+  )
+}
+
+export default CardProducts

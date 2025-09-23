@@ -1,5 +1,4 @@
 import React from 'react'
-import { IconType } from 'react-icons';
 interface IButton {
     width: number;
     text: string;
@@ -7,14 +6,15 @@ interface IButton {
     icon?: boolean;
     textSz?: number;
     font?: string;
+    height?: number;
 }
 
-const Button:React.FC<IButton> = ({width, text, onClick, icon, textSz=14, font='normal'}) => {
+const Button:React.FC<IButton> = ({width, text, onClick, icon, textSz=14, font='normal', height=41}) => {
   return (
     <button
     style={{width: `${width}px`}}
     onClick={onClick}
-      className={`flex items-center justify-center text-white text-[${textSz}px] h-[41px]
+      className={`flex items-center justify-center text-white text-[${textSz}px] h-[${height}px]
          font-${font} leading-[14px] tracking-[0px] bg-[var(--orange-button)] rounded-[10px] w-[${width}px] cursor-pointer`}>
           {icon && (
             <div className='mr-[10px]'>
