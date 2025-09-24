@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Poppins } from 'next/font/google'
 import { QueryProviders } from "./queryProvider";
 import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -25,10 +26,12 @@ export default function RootLayout({
     <html lang="en" className={poppins.className}>
       <body className="bg-red-100">
         <AuthProvider>
+          <CartProvider>
           <QueryProviders>
           <Navbar />
           {children}
           </QueryProviders>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

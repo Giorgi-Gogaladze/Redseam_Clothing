@@ -1,50 +1,21 @@
 'use client'
 import { useAuth } from '@/context/AuthContext'
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import CartImage from '../../public/images/cart.png'
 import Button from './reusabel_components/Button';
-import Cookies from 'js-cookie';
-import { getCart } from './utils/getCart';
-import { IClothing } from './utils/interfaces/Iclothing';
 import CardProducts from './reusabel_components/CardProducts';
 import CartCheckoutInfo from './reusabel_components/CartCheckoutInfo';
-import { removeProduct } from './utils/removeProducts';
-import { redirect, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import { useCart } from '@/context/CartContext';
 
 const CartModal = () => {
-    const [savedProducts, setSavedProducts] = useState<null | IClothing[]>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { setIsCartOpen} = useAuth();
     const pathname = usePathname();
     const route = useRouter();
+    const {savedProducts, setSavedProducts, isLoading, fetchCart, handleProdRemove } = useCart();
 
-    useEffect(() => {
-        const fetchCart = async () => {
-        const token = Cookies.get('token');
-        if (token) {
-            try {
-                setIsLoading(true)
-                const prods = await getCart(token);
-                setSavedProducts(prods);
-                setIsLoading(false)
-            } catch (err) {
-                console.error(err);
-            }
-        } 
-    }
-    fetchCart();
-    }, []);
-
-    const handleProdRemove = async (id: string) => {
-        const token = Cookies.get('token');
-        if(!token){
-            throw new Error('no token available')
-        }
-        await removeProduct(id, token);
-        setSavedProducts(prev =>prev ? prev?.filter(p => String(p.id) !== id) : null);
-    }
     const handleRedirect = ()=> {
         setIsCartOpen(false);
         if(pathname === '/products'){
@@ -82,7 +53,7 @@ const CartModal = () => {
                     </main>
 
                     <div className='absolute bottom-[41px] left-[40px] w-[460px] h-[271px]'>
-                        <CartCheckoutInfo savedProducts={savedProducts} />
+                        <CartCheckoutInfo savedProducts={savedProducts} text='Go to checkout' link={true}/>
                     </div>
                 </section>
                 ) : (
