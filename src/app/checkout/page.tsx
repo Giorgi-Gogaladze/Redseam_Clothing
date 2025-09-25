@@ -1,7 +1,6 @@
 'use client'
 import CartModal from '@/components/CartModal';
 import SuccessPage from '@/components/pages/SuccessPage';
-import Button from '@/components/reusabel_components/Button';
 import CardProducts from '@/components/reusabel_components/CardProducts';
 import CartCheckoutInfo from '@/components/reusabel_components/CartCheckoutInfo';
 import Input from '@/components/reusabel_components/Input'
@@ -12,7 +11,7 @@ import React, { useState } from 'react'
 const page = () => {
   const {savedProducts, setSavedProducts, isLoading, handleProdRemove } = useCart();
   const {isCartOpen} = useAuth();
-  const [succModal, setSuccModal] = useState(true);
+  const [succModal, setSuccModal] = useState(false);
   const [formDat, setFromDat] = useState({
     name: '',
     surname: '',

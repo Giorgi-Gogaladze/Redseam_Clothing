@@ -48,7 +48,7 @@ const CartModal = () => {
                         </div>
                     </div>
 
-                    <main className='w-[460px] absolute top-[134px] left-[40px]'>
+                    <main className='w-[460px] absolute top-[134px] left-[40px] max-h-[474px] overflow-y-scroll'>
                         <CardProducts setSavedProducts={setSavedProducts} savedProducts={savedProducts} onRemove={handleProdRemove} />
                     </main>
 
