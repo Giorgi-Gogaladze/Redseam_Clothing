@@ -4,14 +4,18 @@ import SuccessPage from '@/components/pages/SuccessPage';
 import CardProducts from '@/components/reusabel_components/CardProducts';
 import CartCheckoutInfo from '@/components/reusabel_components/CartCheckoutInfo';
 import Input from '@/components/reusabel_components/Input'
+import { cartCheckout } from '@/components/utils/cartCheckout';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
   const {savedProducts, setSavedProducts, isLoading, handleProdRemove } = useCart();
   const {isCartOpen} = useAuth();
   const [succModal, setSuccModal] = useState(false);
+  const [errors, setErrors] = useState<{[key: string]: string[]}>({})
   const [formDat, setFromDat] = useState({
     name: '',
     surname: '',
@@ -19,9 +23,28 @@ const page = () => {
     address: '',
     zip_code: ''
   });
-  const handleSubmit = ()=> {
-  }
+  const router = useRouter();
 
+    const handlesubmit = async () => {
+      const token = Cookies.get('token');
+      if(!token){
+      alert('user is not authenticated');
+      router.push('/auth/login');
+      return
+    }
+    try {
+      await cartCheckout(token, formDat);
+      setSuccModal(true);
+      setErrors({});
+      setSuccModal(true);
+    } catch (error: any) {
+      if(error.errors){
+        setErrors(error.errors && error.errors ? error.errors : {})
+      } else {
+        alert('checkout failed')
+      }
+    }
+  }
 
   return (
     <section className='relative mx-[100px]'>
@@ -37,12 +60,37 @@ const page = () => {
               <div className='w-[578px] flex flex-col gap-[33px]'>
                   <div className='flex justify-between'>
                     <Input value={formDat.name} onChange={(e) => setFromDat({...formDat, name: e.target.value})} background='white' width={277}  placeholder='Name' />
+                    {errors.name && (
+                      <div>
+                        {errors.name.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                      </div>
+                    )}
                     <Input value={formDat.surname} onChange={(e) => setFromDat({...formDat, surname: e.target.value})} background='white' width={277}  placeholder='Surname'/>
+                      {errors.surname && (
+                      <div>
+                        {errors.surname.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                      </div>
+                    )}
                   </div>
                   <Input value={formDat.email} onChange={(e) => setFromDat({...formDat, email: e.target.value})} background='white' icon={true} placeholder='Email' width={578}  />
+                  {errors.email && (
+                      <div>
+                        {errors.email.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                      </div>
+                    )}
                   <div className='flex justify-between'>
                     <Input value={formDat.address} onChange={(e) => setFromDat({...formDat, address: e.target.value})} background='white' width={277}  placeholder='Address' />
+                    {errors.address && (
+                      <div>
+                        {errors.address.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                      </div>
+                    )}
                     <Input value={formDat.zip_code} onChange={(e) => setFromDat({...formDat, zip_code: e.target.value})} background='white' width={277}  placeholder='Zip code' type='number'/>
+                    {errors.zip_code && (
+                      <div>
+                        {errors.zip_code.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                      </div>
+                    )}
                   </div>
               </div>
             </div>
@@ -52,7 +100,7 @@ const page = () => {
                 <CardProducts setSavedProducts={setSavedProducts} savedProducts={savedProducts || []} onRemove={handleProdRemove} />
               </div>
               <div>
-                <CartCheckoutInfo savedProducts={savedProducts || []}  text="Pay" link={false}/>
+                <CartCheckoutInfo savedProducts={savedProducts || []}  text="Pay" link={false} func={handlesubmit}/>
               </div>
             </div>
           </main>

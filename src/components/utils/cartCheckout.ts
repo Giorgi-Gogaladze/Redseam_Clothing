@@ -1,6 +1,6 @@
 import { ICheckoutData } from "./interfaces/checkoutData";
 
-export async function cartCheckout(token:string, data: ICheckoutData){
+export async function cartCheckout(token:string | undefined, data: ICheckoutData){
     try {
         const formData = new FormData();
         formData.append('name', data.name);
@@ -17,9 +17,11 @@ export async function cartCheckout(token:string, data: ICheckoutData){
             body: formData,
         })
         if(!res.ok){
-            throw new Error('failed to checkout')
+            const errorData = await res.json()
+            throw errorData;
         }
+        return res.json();
     } catch (error) {
-        throw new Error('failed to checkout products idk')
+        throw error
     }
 }

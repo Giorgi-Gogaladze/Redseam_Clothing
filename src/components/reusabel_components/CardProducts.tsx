@@ -34,7 +34,7 @@ const CardProducts:React.FC<ICardProductsProps> = ({savedProducts, onRemove, set
   return (
     <div className='inset-0 flex flex-col gap-[36px]'>
         {savedProducts.map((prod) => (
-            <div 
+            <div
             key={prod.id}
             className=' h-[134px] flex gap-[16px] items-center'>
                 <div className='w-[100px] h-full border border-[var(--grey-2)] rounded-[10px] overflow-hidden'>

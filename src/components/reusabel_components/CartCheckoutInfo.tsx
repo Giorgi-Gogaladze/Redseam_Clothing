@@ -9,9 +9,10 @@ interface ICartInfoProp {
     savedProducts:  IClothing[];
     text: string;
     link: boolean;
+    func?: () => void;
 }
 
-const CartCheckoutInfo:React.FC<ICartInfoProp> = ({savedProducts, text, link}) => {
+const CartCheckoutInfo:React.FC<ICartInfoProp> = ({savedProducts, text, link, func}) => {
     const [total, setTotal] = useState<number>(0);
     const [subTotal, setSubTotal] = useState<number>(0)
     useEffect(() => {
@@ -43,14 +44,12 @@ const CartCheckoutInfo:React.FC<ICartInfoProp> = ({savedProducts, text, link}) =
         <div className='w-full h-[59px] absolute top-[212px] left-0'>
             {link ? (
                 <Link 
-            href="/checkout"
-            onClick={() => setIsCartOpen(false)}>
-                <Button text={text} width={460} font='medium' height={59} textSz={18} />
+            href="/checkout">
+                <Button text={text} width={460} font='medium' height={59} textSz={18} onClick={func}/>
             </Link>
             ) : (
-            <div
-            onClick={() => setIsCartOpen(false)}>
-                <Button text={text} width={460} font='medium' height={59} textSz={18} />
+            <div>
+                <Button text={text} width={460} font='medium' height={59} textSz={18} onClick={func}/>
             </div>
             )}
         </div>

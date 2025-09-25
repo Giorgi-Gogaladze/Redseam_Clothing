@@ -53,7 +53,7 @@ const CartModal = () => {
                     </main>
 
                     <div className='absolute bottom-[41px] left-[40px] w-[460px] h-[271px]'>
-                        <CartCheckoutInfo savedProducts={savedProducts} text='Go to checkout' link={true}/>
+                        <CartCheckoutInfo func={() => setIsCartOpen(false)} savedProducts={savedProducts} text='Go to checkout' link={true}/>
                     </div>
                 </section>
                 ) : (
