@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import clothingPlaceholder from '../../../public/images/imagePlaceholder.png'
 import { IClothing } from '../utils/interfaces/Iclothing'
 import { FiMinus, FiPlus } from 'react-icons/fi';
@@ -35,7 +35,7 @@ const CardProducts:React.FC<ICardProductsProps> = ({savedProducts, onRemove, set
     <div className='inset-0 flex flex-col gap-[36px]'>
         {savedProducts.map((prod) => (
             <div
-            key={prod.id}
+            key={`${prod.id}-${prod.color}-${prod.size}`}
             className=' h-[134px] flex gap-[16px] items-center'>
                 <div className='w-[100px] h-full border border-[var(--grey-2)] rounded-[10px] overflow-hidden'>
                     <Image
@@ -55,7 +55,7 @@ const CardProducts:React.FC<ICardProductsProps> = ({savedProducts, onRemove, set
                             <h1 className='font-normal text-[12px] leading-[12px] tracking-[0px] text-[var(--dark-blue-2)]'>{prod.color}</h1>
                             <p className='font-normal text-[12px] leading-[12px] tracking-[0px] text-[var(--dark-blue-2)]'>{prod.size}</p>
                         </div>
-                        <div className=' h-[26px] font-medium text-[18px] leading-[18px] tracking-[0px] text-[var(--dark-blue)]'>$ {prod.price}</div>
+                        <div className=' h-[26px] font-medium text-[15px] leading-[15px] tracking-[0px] text-[var(--dark-blue)] whitespace-nowrap'>$ {prod.price}</div>
                     </div>
                     <div className='w-full flex justify-between items-center h-[26px]'>
                         <div className='w-[70px] h-[26px] border border-[var(--grey-2)] rounded-full flex justify-around items-center'>

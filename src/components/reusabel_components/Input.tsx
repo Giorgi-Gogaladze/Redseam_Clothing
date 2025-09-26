@@ -12,9 +12,10 @@ interface InputProps {
   value?: string;
   icon?: boolean;
   background?: string;
+  extraStyle?: string; 
 }
 
-const Input:React.FC<InputProps> = ({width, placeholder, type='text', value, onChange, icon, background}) => {
+const Input:React.FC<InputProps> = ({width, placeholder, type='text', value, onChange, icon, background, extraStyle}) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const passwordField = type === 'password'
@@ -32,7 +33,8 @@ const Input:React.FC<InputProps> = ({width, placeholder, type='text', value, onC
         placeholder={placeholder} 
         value={value}
         onChange={onChange}
-        className={`h-[42px] w-[${width}px] rounded-[8px] bg-${background} border px-[12px] border-[var(--grey-2)] text-start  placeholder-style focus:outline-none`} />
+        className={`h-[42px] w-[${width}px] rounded-[8px] bg-${background} border px-[12px] border-[var(--grey-2)] text-start  placeholder-style focus:outline-none
+        ${ extraStyle}`} />
         {passwordField && (
         <span
           onClick={() => setShowPassword(!showPassword)}

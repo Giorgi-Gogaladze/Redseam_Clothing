@@ -24,7 +24,6 @@ const CartCheckoutInfo:React.FC<ICartInfoProp> = ({savedProducts, text, link, fu
         setSubTotal(itemsSubtotal);
     },[savedProducts]);
 
-    const {setIsCartOpen} = useAuth()
   return (
     <div className='inset-0 relative'>
         <div className='w-full h-[110px] absolute top-0 left-0  flex flex-col gap-4'>

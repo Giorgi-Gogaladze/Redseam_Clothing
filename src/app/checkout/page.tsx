@@ -10,6 +10,7 @@ import { useCart } from '@/context/CartContext';
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
+import EmptyCart from '@/components/reusabel_components/EmptyCart';
 
 const page = () => {
   const {savedProducts, setSavedProducts, isLoading, handleProdRemove } = useCart();
@@ -18,12 +19,13 @@ const page = () => {
   const [errors, setErrors] = useState<{[key: string]: string[]}>({})
   const [formDat, setFromDat] = useState({
     name: '',
-    surname: '',
-    email: '',
-    address: '',
-    zip_code: ''
+        surname: '',
+        email: '',
+        address: '',
+        zip_code: ''
   });
   const router = useRouter();
+  const {setIsCartOpen} = useAuth();
 
     const handlesubmit = async () => {
       const token = Cookies.get('token');
@@ -37,6 +39,14 @@ const page = () => {
       setSuccModal(true);
       setErrors({});
       setSuccModal(true);
+      setSavedProducts([]);
+      setFromDat({
+        name: '',
+        surname: '',
+        email: '',
+        address: '',
+        zip_code: ''
+      });
     } catch (error: any) {
       if(error.errors){
         setErrors(error.errors && error.errors ? error.errors : {})
@@ -44,6 +54,9 @@ const page = () => {
         alert('checkout failed')
       }
     }
+  }
+  const handleRedirect = ()=> {
+    router.replace('/products')
   }
 
   return (
@@ -60,7 +73,7 @@ const page = () => {
               <div className='w-[578px] flex flex-col gap-[33px]'>
                   <div className='flex justify-between'>
                     <div className='flex flex-col gap-2'>
-                      <Input value={formDat.name} onChange={(e) => setFromDat({...formDat, name: e.target.value})} background='white' width={277}  placeholder='Name' />
+                      <Input value={formDat.name} onChange={(e) => setFromDat({...formDat, name: e.target.value})} background='white' extraStyle={errors.name ? 'border border-red-500' : ''} width={277}  placeholder='Name' />
                       {errors.name && (
                         <div>
                           {errors.name.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
@@ -68,16 +81,16 @@ const page = () => {
                       )}
                     </div>
                     <div className='flex flex-col gap-2'>
-                      <Input value={formDat.surname} onChange={(e) => setFromDat({...formDat, surname: e.target.value})} background='white' width={277}  placeholder='Surname'/>
-                        {errors.surname && (
-                        <div>
-                          {errors.surname.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                          <Input value={formDat.surname} onChange={(e) => setFromDat({...formDat, surname: e.target.value})} extraStyle={errors.surname ? 'border border-red-500' : ''} background='white' width={277}  placeholder='Surname'/>
+                            {errors.surname && (
+                            <div>
+                              {errors.surname.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
                   </div>
                   <div className='flex flex-col gap-2'>
-                    <Input value={formDat.email} onChange={(e) => setFromDat({...formDat, email: e.target.value})} background='white' icon={true} placeholder='Email' width={578}  />
+                    <Input value={formDat.email} onChange={(e) => setFromDat({...formDat, email: e.target.value})} background='white' extraStyle={errors.email ? 'border border-red-500' : ''} icon={true} placeholder='Email' width={578}  />
                     {errors.email && (
                         <div>
                           {errors.email.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
@@ -86,7 +99,7 @@ const page = () => {
                   </div>  
                   <div className='flex justify-between'>
                     <div className='flex flex-col gap-2'>
-                      <Input value={formDat.address} onChange={(e) => setFromDat({...formDat, address: e.target.value})} background='white' width={277}  placeholder='Address' />
+                      <Input value={formDat.address} onChange={(e) => setFromDat({...formDat, address: e.target.value})} background='white' width={277} extraStyle={errors.address ? 'border border-red-500' : ''}  placeholder='Address' />
                       {errors.address && (
                         <div>
                           {errors.address.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
@@ -94,7 +107,7 @@ const page = () => {
                       )}
                     </div>
                     <div className='flex flex-col gap-2'>
-                      <Input value={formDat.zip_code} onChange={(e) => setFromDat({...formDat, zip_code: e.target.value})} background='white' width={277}  placeholder='Zip code' type='number'/>
+                      <Input value={formDat.zip_code} onChange={(e) => setFromDat({...formDat, zip_code: e.target.value})} background='white' width={277} extraStyle={errors.zip_code ? 'border border-red-500' : ''}  placeholder='Zip code' type='number'/>
                       {errors.zip_code && (
                         <div>
                           {errors.zip_code.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
@@ -106,12 +119,22 @@ const page = () => {
             </div>
 
             <div className='w-[460px] h-[635px] flex flex-col gap-[81px]'>
-              <div className='h-[304px] w-[460px] overflow-y-scroll'>
+              {savedProducts  && savedProducts?.length > 0  ? (
+                <>
+                <div className='h-[304px] w-[460px] overflow-y-scroll'>
                 <CardProducts setSavedProducts={setSavedProducts} savedProducts={savedProducts || []} onRemove={handleProdRemove} />
               </div>
               <div>
                 <CartCheckoutInfo savedProducts={savedProducts || []}  text="Pay" link={false} func={handlesubmit}/>
               </div>
+              </>
+              ) : (
+                <div className='relative bg-[var(--grey)] h-[635px] p-[2rem]'>
+                  <div>
+                    <EmptyCart setIsCartOpen={setIsCartOpen} handleclick={handleRedirect} chekcout={true}/>
+                  </div>
+                </div>
+              )}
             </div>
           </main>
         </div>

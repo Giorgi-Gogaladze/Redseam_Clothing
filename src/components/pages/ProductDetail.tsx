@@ -133,7 +133,7 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
                         </div>
                         <div className='w-full h-[82px] flex flex-col gap-[16px]'>
                             <div className='flex items-center h-[24px]'>
-                                <h1 className='text-[16px] font-normal leading-[16px] tracking-[0px] text-[var(--dark-blue)]'>Size: {selectedSize ?? '+'}</h1>
+                                <h1 className='text-[16px] font-normal leading-[16px] tracking-[0px] text-[var(--dark-blue)]'>Size: {selectedSize ?? ''}</h1>
                             </div>
                             <div className='w-full h-[42px] flex gap-[8px] justify-start'>
                                 {product.available_sizes?.map((size, i) => (
