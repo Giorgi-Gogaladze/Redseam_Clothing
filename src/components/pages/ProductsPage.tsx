@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Input from '../reusabel_components/Input';
 import Button from '../reusabel_components/Button';
 import Clothing from './Clothing';
@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { GetProducts, TFilter, TsortBy } from '../utils/getProducts';
 import { useAuth } from '@/context/AuthContext';
 import CartModal from '../CartModal';
+import Pagination from '../Pagination';
 
 const ProductsPage = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -18,7 +19,7 @@ const ProductsPage = () => {
     const [priceFilt, setPriceFilt] = useState<TFilter>({priceFrom: undefined, priceTo: undefined});
     const {isCartOpen} = useAuth();
 
-
+    
     const {data, isLoading } = useQuery({
         queryKey: ['products', sortBy, priceFilt, page],
         queryFn: () => GetProducts(sortBy as TsortBy, page, priceFilt ),
@@ -40,6 +41,7 @@ const ProductsPage = () => {
         setPriceFilt({priceFrom: priceFrom, priceTo: priceTo});
         setIsFiltModalOpen(false);
     }
+    const prods: string = `${((page-1) * 10) + 1 }-${page * 10}`
 
   return (
     <section className='mx-[100px] mt-[72px] relative'>
@@ -47,7 +49,7 @@ const ProductsPage = () => {
             <header className=' h-[63px] flex justify-between items-center'>
                 <div className='font-semibold text-[42px] leding-[42px] tracking-[0px] text-[var(--dark-blue)]'>Products</div>
                 <div className='h-[24px] flex justify-between items-center gap-[32px]'>
-                    <div className='text-[12px] font-normal leading-[12px] tracking-[0px] text-[var(--dark-blue-2)]'>Showing 1–10 of 100 results</div>
+                    <div className='text-[12px] font-normal leading-[12px] tracking-[0px] text-[var(--dark-blue-2)]'>Showing {prods} of 100 results</div>
 
                     <div className='text-[14px] text-[var(--grey-2)]'>|</div>
 
@@ -108,6 +110,7 @@ const ProductsPage = () => {
             <main>
                 <Clothing data={data?.data || []} />
             </main>
+            <Pagination totalpages={10} currentpage={page} setPage={setPage} />
         </div>
         {isCartOpen && <CartModal />}
     </section>

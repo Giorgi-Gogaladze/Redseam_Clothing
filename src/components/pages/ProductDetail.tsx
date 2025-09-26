@@ -86,9 +86,9 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
                         alt='product image'
                         width={1500}
                         height={1500}
-                        className='object-center cursor-pointer'
+                        className={`object-center cursor-pointer ${i === selectedImgCol ? 'border border-gray-300 rounded-xl': ''}`}
                          />   
-                        </div>
+                        </div> 
                     ))}
                 </div>
                 <figure className='w-[703px] h-full overflow-hidden'>

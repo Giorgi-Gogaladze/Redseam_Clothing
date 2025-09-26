@@ -59,38 +59,48 @@ const page = () => {
               </div>
               <div className='w-[578px] flex flex-col gap-[33px]'>
                   <div className='flex justify-between'>
-                    <Input value={formDat.name} onChange={(e) => setFromDat({...formDat, name: e.target.value})} background='white' width={277}  placeholder='Name' />
-                    {errors.name && (
-                      <div>
-                        {errors.name.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
-                      </div>
-                    )}
-                    <Input value={formDat.surname} onChange={(e) => setFromDat({...formDat, surname: e.target.value})} background='white' width={277}  placeholder='Surname'/>
-                      {errors.surname && (
-                      <div>
-                        {errors.surname.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
-                      </div>
-                    )}
+                    <div className='flex flex-col gap-2'>
+                      <Input value={formDat.name} onChange={(e) => setFromDat({...formDat, name: e.target.value})} background='white' width={277}  placeholder='Name' />
+                      {errors.name && (
+                        <div>
+                          {errors.name.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                        </div>
+                      )}
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <Input value={formDat.surname} onChange={(e) => setFromDat({...formDat, surname: e.target.value})} background='white' width={277}  placeholder='Surname'/>
+                        {errors.surname && (
+                        <div>
+                          {errors.surname.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <Input value={formDat.email} onChange={(e) => setFromDat({...formDat, email: e.target.value})} background='white' icon={true} placeholder='Email' width={578}  />
-                  {errors.email && (
-                      <div>
-                        {errors.email.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
-                      </div>
-                    )}
+                  <div className='flex flex-col gap-2'>
+                    <Input value={formDat.email} onChange={(e) => setFromDat({...formDat, email: e.target.value})} background='white' icon={true} placeholder='Email' width={578}  />
+                    {errors.email && (
+                        <div>
+                          {errors.email.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                        </div>
+                      )}
+                  </div>  
                   <div className='flex justify-between'>
-                    <Input value={formDat.address} onChange={(e) => setFromDat({...formDat, address: e.target.value})} background='white' width={277}  placeholder='Address' />
-                    {errors.address && (
-                      <div>
-                        {errors.address.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
-                      </div>
-                    )}
-                    <Input value={formDat.zip_code} onChange={(e) => setFromDat({...formDat, zip_code: e.target.value})} background='white' width={277}  placeholder='Zip code' type='number'/>
-                    {errors.zip_code && (
-                      <div>
-                        {errors.zip_code.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
-                      </div>
-                    )}
+                    <div className='flex flex-col gap-2'>
+                      <Input value={formDat.address} onChange={(e) => setFromDat({...formDat, address: e.target.value})} background='white' width={277}  placeholder='Address' />
+                      {errors.address && (
+                        <div>
+                          {errors.address.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                        </div>
+                      )}
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                      <Input value={formDat.zip_code} onChange={(e) => setFromDat({...formDat, zip_code: e.target.value})} background='white' width={277}  placeholder='Zip code' type='number'/>
+                      {errors.zip_code && (
+                        <div>
+                          {errors.zip_code.map((err: string, i: number) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+                        </div>
+                      )}
+                    </div>
                   </div>
               </div>
             </div>
