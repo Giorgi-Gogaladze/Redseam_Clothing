@@ -36,11 +36,18 @@ export function CartProvider ({children}: {children: ReactNode}) {
     }
     useEffect(() => { fetchCart(); }, []);
 
-    const handleProdRemove = async (prod: IClothing) => {
-        const token = Cookies.get('token');
-        if (!token) throw new Error('No token available');
+   const handleProdRemove = async (prod: IClothing) => {
+       const token = Cookies.get('token');
+       if (!token) throw new Error('No token available');
+
+       const duplicate = savedProducts?.filter(p => p.id === prod.id) || [];
+
+       if(duplicate.length > 1){
+        setSavedProducts(prev => prev ? prev.filter(p => !(p.id === prod.id && p.color === prod.color && p.size === prod.size)) : null)
+       }else {
         await removeProduct(prod.id, token);
         setSavedProducts(prev => prev ? prev.filter(p => !(p.id === prod.id && p.color === prod.color && p.size === prod.size)) : null);
+       }
     }
     return (
         <CartContext.Provider value={{ savedProducts, setSavedProducts, isLoading, fetchCart, handleProdRemove }}>
