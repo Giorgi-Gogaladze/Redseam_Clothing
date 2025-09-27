@@ -31,15 +31,19 @@ const CardProducts:React.FC<ICardProductsProps> = ({savedProducts, onRemove, set
         }
     }
 
+
+
   return (
     <div className='inset-0 flex flex-col gap-[36px]'>
-        {savedProducts.map((prod) => (
+        {savedProducts.map((prod) => {
+            const selectedImg = prod.images?.[prod.available_colors?.indexOf(prod.color || '') ?? 0] || prod.cover_image;
+            return (
             <div
             key={`${prod.id}-${prod.color}-${prod.size}`}
             className=' h-[134px] flex gap-[16px] items-center'>
                 <div className='w-[100px] h-full border border-[var(--grey-2)] rounded-[10px] overflow-hidden'>
                     <Image
-                    src={prod.cover_image || clothingPlaceholder}
+                    src={selectedImg || clothingPlaceholder}
                     alt='image'
                     width={1200}
                     height={1200}
@@ -75,7 +79,8 @@ const CardProducts:React.FC<ICardProductsProps> = ({savedProducts, onRemove, set
                     </div>
                 </div>
             </div>
-        ))}
+            )
+})}
         </div>
   )
 }

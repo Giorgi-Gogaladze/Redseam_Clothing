@@ -71,7 +71,7 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
         setQuantity(num);
         setIsQuantModalOpen(false);
     }
-    const QunatArr = [1,2,3,4,5,6,7,8,9,10]
+    const QuantArr = [1,2,3,4,5,6,7,8,9,10]
 
   return (
     <>
@@ -172,7 +172,7 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
                                 </div>
                                 {isQuantModalOpen && (
                                     <div className='absolute top-[43px] left-0 w-[70px] h-[100px] border border-[var(--grey-2)] rounded-[10px] bg-white z-0 flex flex-col px-4 py-[9px] gap-[10px] overflow-y-scroll'>
-                                    {QunatArr.map((num, i) => (
+                                    {QuantArr.map((num, i) => (
                                         <div 
                                         key={i} 
                                         onClick={() => handleQuantchoose(num)}
