@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import clothingPlaceholder from '../../../public/images/imagePlaceholder.png'
 import { IClothing } from '../utils/interfaces/Iclothing'
 import { FiMinus, FiPlus } from 'react-icons/fi';
@@ -10,22 +10,22 @@ import { patchProduct } from '../utils/patchProduct'
 
 interface ICardProductsProps {
     savedProducts: IClothing[];
-    onRemove: (id:string) => void;
+    onRemove: (prod:IClothing) => void;
     setSavedProducts: React.Dispatch<React.SetStateAction<IClothing[] | null>>
 }
 
 
 const CardProducts:React.FC<ICardProductsProps> = ({savedProducts, onRemove, setSavedProducts}) => {
 
-    const handleQuantityChange = async (id:number, newQuantity: number )=> {
+    const handleQuantityChange = async (prod:IClothing, newQuantity: number )=> {
         const token = Cookies.get('token');
         if(!token){
             return
         }
         try {
-            await patchProduct(id,token, newQuantity);
+            await patchProduct(prod.id,token, newQuantity, prod.color ?? '', prod.size ?? '');
             setSavedProducts(prev =>
-            prev ? prev.map(p => (p.id) === id ? { ...p, quantity: newQuantity } : p ) : prev );
+            prev ? prev.map(p => (p.id === prod.id && p.color === prod.color && p.size === prod.size) ? { ...p, quantity: newQuantity } : p ) : prev );
         } catch (error) {
           console.log('error happaned updating quantity', error)  
         }
@@ -60,16 +60,16 @@ const CardProducts:React.FC<ICardProductsProps> = ({savedProducts, onRemove, set
                     <div className='w-full flex justify-between items-center h-[26px]'>
                         <div className='w-[70px] h-[26px] border border-[var(--grey-2)] rounded-full flex justify-around items-center'>
                             <div 
-                            onClick={() =>prod.quantity && prod.quantity > 1 && handleQuantityChange(prod.id, prod.quantity - 1) }
+                            onClick={() =>prod.quantity && prod.quantity > 1 && handleQuantityChange(prod, prod.quantity - 1) }
                             className={`font-normal text-[12px] leading-[15px] tracking-[0px] text-[var(--dark-blue-2)] cursor-pointer`}><FiMinus /></div>
                             <div className={`font-normal text-[12px] leading-[15px] tracking-[0px] text-[var(--dark-blue-2)] `}>{prod.quantity}</div>
                             <div
-                            onClick={() =>prod.quantity && handleQuantityChange(prod.id, prod.quantity + 1)} 
+                            onClick={() =>prod.quantity && handleQuantityChange(prod, prod.quantity + 1)} 
                             className='font-normal text-[12px] leading-[15px] tracking-[0px] text-[var(--dark-blue-2)] cursor-pointer'><FiPlus /></div>
                         </div>
                         <div>
                             <h1 
-                            onClick={() => onRemove(String(prod.id))}
+                            onClick={() => onRemove(prod)}
                             className='font-normal text-[12px] leading-[12px] tracking-[0px] text-[var(--dark-blue-2)] cursor-pointer'>Remove</h1>
                         </div>
                     </div>

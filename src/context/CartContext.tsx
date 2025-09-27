@@ -11,7 +11,7 @@ interface ICartContext {
     setSavedProducts: React.Dispatch<React.SetStateAction<IClothing[] | null>>
     isLoading: boolean;
     fetchCart: () => Promise<void>;
-    handleProdRemove: (id: string) => Promise<void>;
+    handleProdRemove: (prod: IClothing) => Promise<void>;
 }
 
 const CartContext = createContext<ICartContext | undefined>(undefined);
@@ -22,7 +22,8 @@ export function CartProvider ({children}: {children: ReactNode}) {
 
     const fetchCart = async () => {
         const token = Cookies.get('token');
-        if (!token) return;
+        if (!token){ 
+            return;}
         try {
             setIsLoading(true);
             const prods = await getCart(token);
@@ -35,11 +36,11 @@ export function CartProvider ({children}: {children: ReactNode}) {
     }
     useEffect(() => { fetchCart(); }, []);
 
-    const handleProdRemove = async (id: string) => {
+    const handleProdRemove = async (prod: IClothing) => {
         const token = Cookies.get('token');
         if (!token) throw new Error('No token available');
-        await removeProduct(id, token);
-        setSavedProducts(prev => prev ? prev.filter(p => String(p.id) !== id) : null);
+        await removeProduct(prod.id, token);
+        setSavedProducts(prev => prev ? prev.filter(p => !(p.id === prod.id && p.color === prod.color && p.size === prod.size)) : null);
     }
     return (
         <CartContext.Provider value={{ savedProducts, setSavedProducts, isLoading, fetchCart, handleProdRemove }}>

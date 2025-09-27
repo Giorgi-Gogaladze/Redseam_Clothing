@@ -9,6 +9,7 @@ import { addProductToCart } from '../utils/addProductToCart'
 import Cookies from 'js-cookie';
 import { useAuth } from '@/context/AuthContext'
 import CartModal from '../CartModal'
+import { useCart } from '@/context/CartContext'
 
 interface DetailPageProp {
     product: IClothing;
@@ -24,7 +25,8 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
         color: product.available_colors?.[selectedImgCol],
         size: selectedSize
     });
-    const {isCartOpen } = useAuth()
+    const {isCartOpen } = useAuth();
+    const {fetchCart} = useCart()
 
     useEffect(() => {
         setSelectedData({
@@ -53,12 +55,14 @@ const ProductDetail:React.FC<DetailPageProp> = ({product,id}) => {
         try {
             const cartData = await addProductToCart(id, data, token);
             alert('product successfully added to cart')
+            await fetchCart();
             console.log(cartData);
         } catch (error) {
         console.error(error);
         alert("Failed to add product to cart");
         } 
     }
+    useEffect(() => {handleCartProductChoose}, [])
 
     const convertCol = (colorName: string) => {
         return colorName.replace(/\s+/g, "-")

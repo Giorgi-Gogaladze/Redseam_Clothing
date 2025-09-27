@@ -1,5 +1,5 @@
-export async function removeProduct(id: string,token: string |  undefined ) {
-        const res = await fetch (`https://api.redseam.redberryinternship.ge/api/cart/products/${Number(id)}`, {
+export async function removeProduct(id: number,token: string |  undefined ) {
+        const res = await fetch (`https://api.redseam.redberryinternship.ge/api/cart/products/${(id)}`, {
             method: 'DELETE',
             headers: {
                 "Accept": "application/json",

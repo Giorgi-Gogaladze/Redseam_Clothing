@@ -1,4 +1,5 @@
 export async function getCart(token: string) {
+    if(!token) return null;
     try {
             const response = await fetch('https://api.redseam.redberryinternship.ge/api/cart', {
                 method: 'GET',
@@ -8,7 +9,7 @@ export async function getCart(token: string) {
                 },
             })
             if(!response.ok){
-                throw new Error('failed ot fetch data')
+                return null
             }
             const res = await response.json();
             return res
