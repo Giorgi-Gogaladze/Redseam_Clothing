@@ -4,13 +4,13 @@ import Button from '@/components/reusabel_components/Button'
 import Input from '@/components/reusabel_components/Input'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 
 const page = () => {
   const [password, setPassword] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [errors, setErrors] = useState<{[key:string]: string}>({})
+  const [error, setError] = useState<{[key:string]: string[]}>({})
   const router = useRouter();
   const { user, setUser} = useAuth();
   
@@ -20,25 +20,13 @@ const page = () => {
       const res = await handleLogin(loginData);
       setPassword('');
       setEmail('');
-      setErrors({});
+      setError({});
       setUser(res)
       router.replace('/products');
       console.log('returned data:',res);
     } catch (error: any) {
-      setErrors({});
-      if (error?.errors) {
-        setErrors((prevErr) => ({
-          ...prevErr, ...error.errors
-        }))
-      } 
-      if (error?.message) {
-        setErrors((prevErrM) => ({
-          ...prevErrM, message: error.message
-        }));
-      }
-      {
-      setErrors({ message: 'server error, please try again.' });
-      }
+      setError(error && error.errors ? error.errors : {});
+      console.log('returned error:',error)
     }
   }
 
@@ -51,24 +39,22 @@ const page = () => {
           <h1 className='font-semibold text-[42px] leading-[100%] tracking-[0] flex justify-start w-[261px] h-[63px] items-center'>
             Log in
           </h1>
-
           <div className='w-full flex flex-col gap-[24px]'>
-            {errors.message && (
-            <div className="mb-2">
-              <p className="font-light text-[var(--orange-button)] text-[12px]">{errors.message}</p>
-            </div>
-            )}
             <div className='flex flex-col gap-1'>
               <Input value={email} onChange={(e) => setEmail(e.target.value)}  type='email' width={554} placeholder='Email *' />
-              {Array.isArray(errors.email) && errors.email.map((err, i) => (
-                <p key={i} className='font-light text-[var(--orange-button)] text-[10px]'>{err}</p>
-              ))}
+              {error.email && (
+              <div>
+                {error.email.map((err, i) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+              </div>
+            )}
             </div>
             <div className='flex flex-col gap-1'>
               <Input value={password} onChange={(e) => setPassword(e.target.value) } type='password' width={554} placeholder='Password *'/>
-              {Array.isArray(errors.password) && errors.password.map((err, i) => (
-                <p key={i} className='font-light text-[var(--orange-button)] text-[10px]'>{err}</p>
-              ))}
+              {error.password && (
+              <div>
+                {error.password.map((err, i) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
+              </div>
+            )}
             </div>
           </div>
           <div className='w-[554px] h-[86px] flex flex-col justify-between items-center'>

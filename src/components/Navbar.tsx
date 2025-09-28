@@ -4,9 +4,16 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import userPlaceholder from  '../../public/images/userPlaceholder.png'
+import Cookies from 'js-cookie'
 
 const Navbar = () => {
-    const { user, setIsCartOpen } = useAuth();
+    const {setIsCartOpen, user, setUser, isLoading } = useAuth();
+    const handleLogout = () => {
+        localStorage.setItem('user', '');
+        Cookies.remove('token', {path: '/'});
+        setUser(null);
+    }
+
   return (
     <nav className='w-full h-[80px] py-[10px] px-[100px] flex items-center justify-between'>
         <Link href={'/products'}>
@@ -17,9 +24,12 @@ const Navbar = () => {
                 <h1 className=' font-semibold text-[16px] leading-[100%] tracking-[0] text-[var(--dark-blue)] p-[1px]'>RedSeam Clothing</h1>
             </div>
         </Link>
-
-        {user ? 
-        (<div className='w-[84px] h-[40px] flex gap-[20px] justify-between items-center'>
+        {isLoading ? (
+            <div className="w-16 h-[20px] flex items-center justify-center">
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-gray-900"></div>
+            </div>
+        ) : user ? 
+        (<div className='w-[184px] h-[40px] flex gap-[20px] justify-between items-center'>
             <div 
             className='cursor-pointer'
             onClick={() => setIsCartOpen(true)}>
@@ -36,6 +46,9 @@ const Navbar = () => {
                 width={200}
                 height={200}
                 className='object-center' />
+            </div>
+            <div onClick={handleLogout} className='w-[50px] h-[20px] cursor-pointer'>
+                logout
             </div>
         </div>
         ) :(

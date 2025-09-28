@@ -15,6 +15,9 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "RedceamClothing",
   description: "Redberry Clothing Ecommerce App",
+  icons: {
+    icon: "/images/icon.png",
+  }
 };
 
 export default function RootLayout({

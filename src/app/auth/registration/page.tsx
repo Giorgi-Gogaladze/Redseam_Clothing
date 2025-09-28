@@ -41,7 +41,8 @@ const page = () => {
     }
     try {
       const returnedData = await handleRegistration(data);
-      router.replace('/products')
+      alert('you have successfully registered')
+      router.replace('/auth/login')
       setFormData({
         email: '',
         username: '',
@@ -111,7 +112,7 @@ const page = () => {
 
         <main className='w-[554px] flex flex-col gap-[24px]'>
           <div className='flex flex-col gap-1'>
-            <Input value={formData.username} onChange={(e) => setFormData({...formData, username: e.target.value})}  width={554} placeholder='Username *' type={'text'} />
+            <Input value={formData.username} onChange={(e) => setFormData({...formData, username: e.target.value})} extraStyle={error.username ? 'border border-red-500' : ''}  width={554} placeholder='Username *' type={'text'} />
             {error.username && (
               <div>
                 {error.username.map((err, i) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
@@ -119,7 +120,7 @@ const page = () => {
             )}
           </div>
           <div className='flex flex-col gap-1'>
-            <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})}  width={554} placeholder='Email *' type={'email'} />
+            <Input value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} extraStyle={error.email ? 'border border-red-500' : ''}  width={554} placeholder='Email *' type={'email'} />
             {error.email && (
               <div>
                 {error.email.map((err, i) => <p className='font-light text-[var(--orange-button)] text-[10px]' key={i}>{err}</p>)}
@@ -127,7 +128,7 @@ const page = () => {
             )}
           </div>
           <div className='flex flex-col gap-1'>
-            <Input value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})}  width={554} placeholder='Password *' type={'password'} />
+            <Input value={formData.password} onChange={(e) => setFormData({...formData, password: e.target.value})} extraStyle={error.password ? 'border border-red-500' : ''}  width={554} placeholder='Password *' type={'password'} />
             {error.password && error.password[0] && (
               <div>
                <p className='font-light text-[var(--orange-button)] text-[10px]'>{error.password[0]}</p>
@@ -135,7 +136,7 @@ const page = () => {
             )}
           </div>
           <div className='flex flex-col gap-1'>
-            <Input value={formData.password_confirmation} onChange={(e) => setFormData({...formData, password_confirmation: e.target.value})}  width={554} placeholder='Confirm Password *' type={'password'} />
+            <Input value={formData.password_confirmation} onChange={(e) => setFormData({...formData, password_confirmation: e.target.value})} extraStyle={error.password ? 'border border-red-500' : ''}  width={554} placeholder='Confirm Password *' type={'password'} />
             {error.password && error.password[0] && error.password[0] === 'The password field confirmation does not match.' && (
               <div>
                 <p className='font-light text-[var(--orange-button)] text-[10px]'>{error.password[0]}</p>

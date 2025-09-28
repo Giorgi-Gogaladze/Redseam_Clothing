@@ -7,6 +7,7 @@ interface IContext {
     setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
     isCartOpen: boolean;
     setIsCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    isLoading: boolean;
 }
 
 const AuthContext = createContext<undefined | IContext>(undefined);
@@ -14,12 +15,14 @@ const AuthContext = createContext<undefined | IContext>(undefined);
 export function AuthProvider({children}: {children: ReactNode}){
     const [user, setUser] = useState<IUser | null>(null);
     const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
       const storedUser = localStorage.getItem('user');
       if(storedUser){
         setUser(JSON.parse(storedUser))
       }  
+      setIsLoading(false)
     }, []);
 
     useEffect(() => {
@@ -33,7 +36,7 @@ export function AuthProvider({children}: {children: ReactNode}){
 
 
     return (
-        <AuthContext.Provider value={{user, setUser, isCartOpen, setIsCartOpen}}>
+        <AuthContext.Provider value={{user, setUser, isCartOpen, setIsCartOpen, isLoading}}>
             {children}
         </AuthContext.Provider>
     )
