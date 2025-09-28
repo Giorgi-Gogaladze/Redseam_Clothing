@@ -6,9 +6,8 @@ import Link from 'next/link'
 import Input from '@/components/reusabel_components/Input'
 import { handleRegistration } from '@/components/utils/handleRegistration'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/context/AuthContext'
 
-const page = () => {
+const Page = () => {
   const [userImage, setUserImage] = useState<string | null>(null);
   const [error, setError] = useState<{[key: string]: string[]}>({});
   const router = useRouter();
@@ -161,4 +160,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

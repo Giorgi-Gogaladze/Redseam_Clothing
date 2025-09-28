@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
 
-const page = () => {
+const Page = () => {
   const [password, setPassword] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [error, setError] = useState<{[key:string]: string[]}>({})
@@ -76,4 +76,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

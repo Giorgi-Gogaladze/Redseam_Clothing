@@ -12,7 +12,7 @@ import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import EmptyCart from '@/components/reusabel_components/EmptyCart';
 
-const page = () => {
+const Page = () => {
   const {savedProducts, setSavedProducts, isLoading, handleProdRemove } = useCart();
   const {isCartOpen} = useAuth();
   const [succModal, setSuccModal] = useState(false);
@@ -145,4 +145,4 @@ const page = () => {
     </section>
   )}
 
-export default page
+export default Page

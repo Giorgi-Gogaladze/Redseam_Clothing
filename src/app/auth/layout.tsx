@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 import mainImage from '@/../../public/images/mainImage.png'
 
-const layout = ({children}:{children: React.ReactNode}) => {
+const Layout = ({children}:{children: React.ReactNode}) => {
   return (
     <div className='w-full flex'>
         <div className='w-[948px] h-[1000px] overflow-hidden'>
@@ -20,4 +20,4 @@ const layout = ({children}:{children: React.ReactNode}) => {
   )
 }
 
-export default layout
+export default Layout

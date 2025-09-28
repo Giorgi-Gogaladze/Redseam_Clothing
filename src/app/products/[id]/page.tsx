@@ -2,11 +2,21 @@ import { GetCertainProduct } from '@/components/utils/getCertainProduct';
 import { IClothing } from '@/components/utils/interfaces/Iclothing';
 import React from 'react'
 import ProductDetail from '@/components/pages/ProductDetail';
+import { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({params}: { params: {id: string} }){
- const res = await fetch(`https://api.redseam.redberryinternship.ge/api/products/${params.id}`, {
+interface ProductPageProps {
+  params: Promise<{
+    id: string;
+  }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export async function generateMetadata({params}: ProductPageProps):Promise<Metadata>{
+    const { id } = await params;
+
+    const res = await fetch(`https://api.redseam.redberryinternship.ge/api/products/${id}`, {
             method: 'GET',
             headers: {
                 "Accept": "application/json",
@@ -15,8 +25,8 @@ export async function generateMetadata({params}: { params: {id: string} }){
         });
         if (!res.ok) {
           return {
-          title: "Product not found",
-          description: "",
+            title: "Product not found",
+            description: "",
           };
         }
 
@@ -26,17 +36,16 @@ export async function generateMetadata({params}: { params: {id: string} }){
         }
 }
 
-interface IPageProp {
-    params: {id: string}
-}
-const page = async ({params}: IPageProp) => {
-    const product: IClothing = await GetCertainProduct(params.id); 
+const Page = async ({params}: ProductPageProps) => {
+    const { id } = await params;
+    
+    const product: IClothing = await GetCertainProduct(id); 
 
   return (
     <>
-    <ProductDetail product={product} id={params.id} />
+    <ProductDetail product={product} id={id} />
     </>
   )
 }
 
-export default page
+export default Page
