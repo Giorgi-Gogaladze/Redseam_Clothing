@@ -24,7 +24,11 @@ const ProductsPage = () => {
         queryKey: ['products', sortBy, priceFilt, page],
         queryFn: () => GetProducts(sortBy as TsortBy, page, priceFilt ),
     })
-    if(isLoading) return <div>loading...</div>
+    if(isLoading) return (
+    <div className='w-[1920px] h-[1000px] flex items-center justify-center'>
+        <div className='animate-spin size-[75px] border-gray-900 rounded-full border-b-4 border-r-4'></div>
+    </div>
+    )
 
     const sortOptions = [
       { value: '', label: 'Sort by' },
@@ -70,7 +74,13 @@ const ProductsPage = () => {
                                         <Input onChange={(e) => setPriceFrom(Number(e.target.value))} width={175}  placeholder='From *' type='number' />
                                         <Input onChange={(e) => setPriceTo(Number(e.target.value))} width={175} placeholder='To *' type='number' />
                                     </div>
-                                    <div className='w-full flex justify-end'>
+                                    <div className='w-full flex justify-between items-center'>
+                                        <button 
+                                        className='w-[124px] h-[41px] bg-black text-white rounded-[10px] cursor-pointer'
+                                        onClick={() => {
+                                            setPriceFilt({priceFrom: undefined, priceTo: undefined});
+                                            setIsFiltModalOpen(false)
+                                        }}>Clear Filter</button>
                                         <Button width={124} text='Apply' onClick={handleSearch} />
                                     </div>
                                 </div>
